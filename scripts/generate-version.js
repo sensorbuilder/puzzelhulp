@@ -6,7 +6,8 @@ const commitDate = execSync('git log -1 --format=%cd --date=short').toString().t
 
 const versionInfo = {
   commit: commitHash,
-  date: commitDate
+  date: commitDate,
+  message: "alpha release"
 };
 
 fs.writeFileSync(
