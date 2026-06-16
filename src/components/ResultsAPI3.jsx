@@ -14,7 +14,7 @@ export default function Results(props) {
 
         async function makeApiCalls() {
             try {
-                const cacheResponse = await fetch(`${kvURL}set?searchword=${encodeURIComponent(searchword.toUpperCase())}`);
+                const cacheResponse = await fetch(`${kvURL}?searchword=${searchword}`);
                 const cacheData = await cacheResponse.json();
                 setSolution(JSON.parse(cacheData.solution));
             } catch (error) {
