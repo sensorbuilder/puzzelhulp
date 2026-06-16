@@ -46,7 +46,8 @@ export default {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0',
     };
 
     // Handle CORS preflight
@@ -57,7 +58,8 @@ export default {
     try {
       // GET request: retrieve cached solution or fetch & parse
       if (request.method === 'GET') {
-        const searchword = url.searchParams.get('searchword');
+        const rawSearchword = url.searchParams.get('searchword');
+        const searchword = rawSearchword?.trim().toUpperCase();
         
         if (!searchword) {
           return new Response(
@@ -117,7 +119,9 @@ export default {
       // POST request: manually cache solution (optional, for backwards compatibility)
       if (request.method === 'POST') {
         const body = await request.json();
-        const { searchword, solution } = body;
+        const rawSearchword = body.searchword;
+        const searchword = rawSearchword?.trim().toUpperCase();
+        const { solution } = body;
 
         if (!searchword || !solution) {
           return new Response(

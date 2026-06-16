@@ -6,25 +6,25 @@ export default function Main() {
     const [post, setPost] = React.useState("");
     const [searchWord, setSearchWord] = React.useState("")
     const [searchSolution, setSearchSolution] = React.useState([{ letters: 8, woorden: ['No Result']}])
+    const [solutionSource, setSolutionSource] = React.useState("")
 
-    function handleClick(event) {
+    function handleSubmit(event) {
         event.preventDefault()
-        setSearchWord(prev => post)
-        console.log(`Click! : ${searchWord}`)
+        setSearchWord(post.trim().toUpperCase())
     }
     
-function handleChange(event) {
-    setPost(oldPost => event.target.value)
-}
+    function handleChange(event) {
+        setPost(event.target.value)
+    }
 
     function handleFocus(event) {
         event.target.select()
     }
 
-    console.log('Rendered - Main - 31.8')
+    console.log(`Rendered - Main - Data source: ${solutionSource || 'not set'}`)
     return (
         <main>
-            <form className="form">
+            <form className="form" onSubmit={handleSubmit}>
                 <input 
                     type="text"
                     name="searchword"
@@ -35,14 +35,14 @@ function handleChange(event) {
                     onFocus={handleFocus}
                 />
                 <button 
+                    type="submit"
                     className="form--button"
                     name="Zoek"
-                    onClick={handleClick}
                 >
                     Zoek
                 </button>
             </form>
-            <Results searchword={searchWord} solution={searchSolution} setSolution={setSearchSolution} />
+            <Results searchword={searchWord} solution={searchSolution} setSolution={setSearchSolution} setSolutionSource={setSolutionSource} />
             <Footer solution={searchSolution} />
         </main>
     )
